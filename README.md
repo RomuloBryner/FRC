@@ -1,3 +1,4 @@
+![🤖_First_Robotics_Competition 🤖](https://github.com/user-attachments/assets/39f5a98f-c73c-4e32-a243-6d8547711742)
 # FRC: Proyecto de la Competencia First Robotics
 
 Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots en el marco de la competencia **First Robotics Competition**. A continuación, se detallan las instrucciones de instalación y configuración necesarias para empezar.
