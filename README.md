@@ -1,44 +1,55 @@
-# FRC
-**First Robotics Competition project**
+# FRC: Proyecto de la Competencia First Robotics
 
-README FOR INSTALLATIONS
+Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots en el marco de la competencia **First Robotics Competition**. A continuación, se detallan las instrucciones de instalación y configuración necesarias para empezar.
 
-1. Instalaciones necesarias:
-    VSCode - Entorno para programar el robot
-        https://code.visualstudio.com/docs/?dv=win
-    Python - lenguaje de programación a utilizar
-        --WINDOWS--
-            64-bit: https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe
-            32-bit: https://www.python.org/ftp/python/3.12.0/python-3.12.0.exe
-        --MAC--
-            https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg
-    AdvantageScope - Para vista 3D de la simulación
-        https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1
+---
 
-2. Librerias necesarias:
-    RobotPy
-        --WINDOWS--
-            Run the following command from cmd or Powershell to install the core RobotPy packages:
+#### 1. Instalaciones necesarias:
 
-            py -3 -m pip install robotpy
-            To upgrade, you can run this:
+- ##### [Visual Studio Code (VSCode)](https://code.visualstudio.com/docs/?dv=win) - Entorno de desarrollo integrado (IDE) recomendado para programar el robot.
+  
+- ##### Python - Lenguaje de programación utilizado.
+  - ###### [Windows (64-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe)
+  - ###### [Windows (32-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0.exe)
+  - ###### [MacOS](https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg)
 
-            py -3 -m pip install --upgrade robotpy
+- ##### [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1) - Herramienta para visualizar la simulación del robot en 3D.
 
-            If you don’t have administrative rights on your computer, either use virtualenv/virtualenvwrapper-win, or or you can install to the user site-packages directory:
+- ##### [WPILib](https://docs.wpilib.org/en/stable/docs/zero-to-robot/wpilib-setup.html) - Conjunto de herramientas y bibliotecas para programar y desplegar el código del robot en la competencia FRC.
 
-            py -3 -m pip install --user robotpy
-        
-        --MAC--
-            On a macOS system that has pip installed, just run the following command from the Terminal application (may require admin rights):
+---
 
-            python3 -m pip install robotpy
-            To upgrade, you can run this:
+#### 2. Librerías necesarias:
 
-            python3 -m pip install --upgrade robotpy
-            If you don’t have administrative rights on your computer, either use virtualenv/virtualenvwrapper, or you can install to the user site-packages directory:
+- ##### RobotPy  
+    - **Instalación en Windows**  
+      Abre `cmd` o `Powershell` y ejecuta el siguiente comando para instalar los paquetes principales de RobotPy:
+      ```sh
+      py -3 -m pip install robotpy
+      ```
+      Para actualizar RobotPy, usa:
+      ```sh
+      py -3 -m pip install --upgrade robotpy
+      ```
+      Si no tienes permisos de administrador en tu equipo, puedes usar un entorno virtual con `virtualenv/virtualenvwrapper-win` o instalarlo en el directorio de paquetes del usuario:
+      ```sh
+      py -3 -m pip install --user robotpy
+      ```
 
-            python3 -m pip install --user robotpy
-    
-    
+    - **Instalación en MacOS**  
+      Abre la aplicación Terminal y ejecuta el siguiente comando (puede requerir permisos de administrador):
+      ```sh
+      python3 -m pip install robotpy
+      ```
+      Para actualizar RobotPy, usa:
+      ```sh
+      python3 -m pip install --upgrade robotpy
+      ```
+      Si no tienes permisos de administrador, puedes usar `virtualenv/virtualenvwrapper` o instalarlo en el directorio de paquetes del usuario:
+      ```sh
+      python3 -m pip install --user robotpy
+      ```
 
+---
+
+- **Documentación oficial:** Familiarízate con la [documentación oficial de WPILib](https://docs.wpilib.org/en/stable/) y [RobotPy](https://robotpy.readthedocs.io/en/stable/) para obtener detalles completos sobre las funciones disponibles y buenas prácticas para la programación del robot.
