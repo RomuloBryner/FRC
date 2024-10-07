@@ -58,22 +58,35 @@ Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots e
     python3 -m pip install --user robotpy
     ```
 
-#### 3. Correr la simulacion
+#### 3. Correr la simulacion:
 
-        En la terminal, deben correr el siguiente comando para poder la simulación 2d.
-        ```sh
-        py -3 -m robotpy sim
-        ```
+  En la terminal, deben correr el siguiente comando para poder la simulación 2d.
+    ```sh
+    py -3 -m robotpy sim
+    ```
 
-        Para correr la simulación en 3d, se necesita tener abierta la simulacion 2d y tener instalado [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1).
+  Para correr la simulación en 3d, se necesita tener abierta la simulacion 2d y tener instalado [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1).
 
-        Abren [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1) y seleccionamos file:
+  Abren [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1) y seleccionamos file:
 
-        Luego, seleccionamos "Connect to Simulator"
+  ![image](https://github.com/user-attachments/assets/aa5e583f-3958-4ae7-8d0e-36e5825a87a0)
 
-        En la ezquina superior derecha, tenemos un signo de más, donde buscaremos "3D Field"
+  Luego, seleccionamos "Connect to Simulator"
 
-        En el panel izquierdo se verá el Robot, tenemos que arrastrarlo al campo "3D Poses"
+  ![image](https://github.com/user-attachments/assets/a7b0c565-813c-490a-ab5f-b64c5f88412d)
+
+ En la ezquina superior derecha, tenemos un signo de más, donde buscaremos "3D Field"
+
+ ![image](https://github.com/user-attachments/assets/c73172ae-0747-4f05-a859-c1fde1747986)
+
+ En el panel izquierdo se verá el Robot, tenemos que arrastrarlo al campo "3D Poses"
+
+ ![image](https://github.com/user-attachments/assets/34dd0b63-d87c-4cee-9d7c-899c492bba71)
+
+Aqui ya tendremos nuestro robot en la simulacion 3D
+
+![image](https://github.com/user-attachments/assets/bb8bafd5-005b-4be5-88ef-d9f45c559b89)
+
 
 ---
 
