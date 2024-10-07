@@ -1,4 +1,5 @@
 ![🤖_First_Robotics_Competition 🤖](https://github.com/user-attachments/assets/39f5a98f-c73c-4e32-a243-6d8547711742)
+
 # FRC: Proyecto de la Competencia First Robotics
 
 Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots en el marco de la competencia **First Robotics Competition**. A continuación, se detallan las instrucciones de instalación y configuración necesarias para empezar.
@@ -8,8 +9,8 @@ Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots e
 #### 1. Instalaciones necesarias:
 
 - ##### [Visual Studio Code (VSCode)](https://code.visualstudio.com/docs/?dv=win) - Entorno de desarrollo integrado (IDE) recomendado para programar el robot.
-  
 - ##### Python - Lenguaje de programación utilizado.
+
   - ###### [Windows (64-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe)
   - ###### [Windows (32-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0.exe)
   - ###### [MacOS](https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg)
@@ -22,34 +23,57 @@ Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots e
 
 #### 2. Librerías necesarias:
 
-- ##### RobotPy  
-    - **Instalación en Windows**  
-      Abre `cmd` o `Powershell` y ejecuta el siguiente comando para instalar los paquetes principales de RobotPy:
-      ```sh
-      py -3 -m pip install robotpy
-      ```
-      Para actualizar RobotPy, usa:
-      ```sh
-      py -3 -m pip install --upgrade robotpy
-      ```
-      Si no tienes permisos de administrador en tu equipo, puedes usar un entorno virtual con `virtualenv/virtualenvwrapper-win` o instalarlo en el directorio de paquetes del usuario:
-      ```sh
-      py -3 -m pip install --user robotpy
-      ```
+- ##### RobotPy
 
-    - **Instalación en MacOS**  
-      Abre la aplicación Terminal y ejecuta el siguiente comando (puede requerir permisos de administrador):
-      ```sh
-      python3 -m pip install robotpy
-      ```
-      Para actualizar RobotPy, usa:
-      ```sh
-      python3 -m pip install --upgrade robotpy
-      ```
-      Si no tienes permisos de administrador, puedes usar `virtualenv/virtualenvwrapper` o instalarlo en el directorio de paquetes del usuario:
-      ```sh
-      python3 -m pip install --user robotpy
-      ```
+  - **Instalación en Windows**  
+    Abre `cmd` o `Powershell` y ejecuta el siguiente comando para instalar los paquetes principales de RobotPy:
+
+    ```sh
+    py -3 -m pip install robotpy
+    ```
+
+    Para actualizar RobotPy, usa:
+
+    ```sh
+    py -3 -m pip install --upgrade robotpy
+    ```
+
+    Si no tienes permisos de administrador en tu equipo, puedes usar un entorno virtual con `virtualenv/virtualenvwrapper-win` o instalarlo en el directorio de paquetes del usuario:
+
+    ```sh
+    py -3 -m pip install --user robotpy
+    ```
+
+  - **Instalación en MacOS**  
+    Abre la aplicación Terminal y ejecuta el siguiente comando (puede requerir permisos de administrador):
+    ```sh
+    python3 -m pip install robotpy
+    ```
+    Para actualizar RobotPy, usa:
+    ```sh
+    python3 -m pip install --upgrade robotpy
+    ```
+    Si no tienes permisos de administrador, puedes usar `virtualenv/virtualenvwrapper` o instalarlo en el directorio de paquetes del usuario:
+    ```sh
+    python3 -m pip install --user robotpy
+    ```
+
+#### 3. Correr la simulacion
+
+        En la terminal, deben correr el siguiente comando para poder la simulación 2d.
+        ```sh
+        py -3 -m robotpy sim
+        ```
+
+        Para correr la simulación en 3d, se necesita tener abierta la simulacion 2d y tener instalado [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1).
+
+        Abren [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1) y seleccionamos file:
+
+        Luego, seleccionamos "Connect to Simulator"
+
+        En la ezquina superior derecha, tenemos un signo de más, donde buscaremos "3D Field"
+
+        En el panel izquierdo se verá el Robot, tenemos que arrastrarlo al campo "3D Poses"
 
 ---
 

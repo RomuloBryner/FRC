@@ -43,22 +43,27 @@ class MyRobot(wpilib.TimedRobot):
         """ Metodo para controlar el robot Teleoperadamente """
 
         # Asegurar que haya movimiento de los JS
-        if(-self.driverController.getLeftY() > 0.5 or -self.driverController.getLeftX() > 0.5 or -self.driverController.getLeftY() < -0.5 or -self.driverController.getLeftX() < -0.5 or -self.driverController.getRightX() > 0.5 or -self.driverController.getRightX() < -0.5):
+        if(-self.driverController.getLeftY() > 0.5 or 
+           -self.driverController.getLeftX() > 0.5 or 
+           -self.driverController.getLeftY() < -0.5 or 
+           -self.driverController.getLeftX() < -0.5 or 
+           -self.driverController.getRightX() > 0.5 or 
+           -self.driverController.getRightX() < -0.5):
             
             # Obtener Posicion y Rotacion de los JS
             forward = -self.driverController.getLeftY() * 0.05
             rotation = -self.driverController.getRightX() * 0.05
 
             # Actualizar Rotacion del Robot
-            self.robotRotation += rotation
+            self.robotRotation = self.robotRotation + rotation
 
             # Calcular la nueva Posicion del Robot con la Rotacion utilizando la libreria math
             deltaX = forward * math.cos(self.robotRotation)
             deltaY = forward * math.sin(self.robotRotation)
             
             # Asignar las posiciones al Robot
-            self.robotPos[0] += deltaX
-            self.robotPos[1] += deltaY
+            self.robotPos[0] = self.robotPos[0] + deltaX
+            self.robotPos[1] = self.robotPos[1] + deltaY
 
             # Actualizar las posiciones en la Simulacion
             self.field.setRobotPose(Pose2d(self.robotPos[0], self.robotPos[1], Rotation2d(self.robotRotation)))
