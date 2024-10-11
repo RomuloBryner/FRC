@@ -9,15 +9,9 @@ Este proyecto utiliza Python, RobotPy y WPILib para programar y simular robots e
 #### 1. Instalaciones necesarias:
 
 - ##### [Visual Studio Code (VSCode)](https://code.visualstudio.com/docs/?dv=win) - Entorno de desarrollo integrado (IDE) recomendado para programar el robot.
-- ##### Python - Lenguaje de programación utilizado.
-
-  - ###### [Windows (64-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe)
-  - ###### [Windows (32-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0.exe)
-  - ###### [MacOS](https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg)
-
+- ##### [WPILib](https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/wpilib-setup.html) - Instala Visual Studio Code con la libreria y herramientas de WPILib.
+- ##### Python [Windows (64-bit)](https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe) | [MacOS](https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg) - Lenguaje de programación utilizado.
 - ##### [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope/releases/tag/v3.2.1) - Herramienta para visualizar la simulación del robot en 3D.
-
-- ##### [WPILib](https://docs.wpilib.org/en/stable/docs/zero-to-robot/wpilib-setup.html) - Conjunto de herramientas y bibliotecas para programar y desplegar el código del robot en la competencia FRC.
 
 ---
 
