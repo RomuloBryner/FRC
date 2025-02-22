@@ -17,8 +17,10 @@ robotpy_extras = [
     # "cscore",
     # "navx",
     # "pathplannerlib",
-    # "phoenix5",
     # "phoenix6",
+    # "robotpy-ctre",
+    #  "pynetworktables",
+    # "time",
     # "photonvision",
     # "playingwithfusion",
     # "rev",
@@ -28,4 +30,4 @@ robotpy_extras = [
 ]
 
 # Other pip packages to install
-requires = [wpilib]
+requires = []

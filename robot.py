@@ -1,98 +1,163 @@
 #!/usr/bin/env python3
-#
-# Copyright (c) FIRST and other WPILib contributors.
-# Open Source Software; you can modify and/or share it under the terms of
-# the WPILib BSD license file in the root directory of this project.about:blank#blocked
-#
-
 import wpilib
 import wpilib.drive
-from wpimath.geometry import Pose2d, Rotation2d
-import math
+from wpilib import SmartDashboard
+from wpilib import PowerDistribution, DigitalInput
+from phoenix5 import WPI_VictorSPX
+from wpilib.drive import DifferentialDrive
 
 class MyRobot(wpilib.TimedRobot):
     def robotInit(self):
-        """Robot initialization function"""
+        """Initializes the robot's components"""
+        self.timer = wpilib.Timer()
 
-        # Asignacion de motores
-        leftMotor = wpilib.PWMSparkMax(0)
-        rightMotor = wpilib.PWMSparkMax(1)
-        self.robotDrive = wpilib.drive.DifferentialDrive(leftMotor, rightMotor)
+        # Motor Controllers - Talons
+        self._initMotors()
 
-        # Designación de Control Remoto
-        self.driverController = wpilib.XboxController(0)
+        # Speed Limit
+        self.speed_limit = 0.7
 
-        # Campo 2D de la simulacion
-        self.field = wpilib.Field2d()
+        # Elevator Motors
+        self._initElevatorMotors()
 
-        # Posición inicial del robot
-        self.robotPos = [0, 0]
-        # Rotación inicial del robot
-        self.robotRotation = 1.457685
+        # Elevator limit switches
+        self._initElevatorSwitches()
 
-        # We need to invert one side of the drivetrain so that positive voltages
-        # result in both sides moving forward. Depending on how your robot's
-        # gearbox is constructed, you might have to invert the left side instead.
-        rightMotor.setInverted(True)
-        
-        # Exportar al campo 2D
-        wpilib.SmartDashboard.putData("Field", self.field)
-    
+        # Joystick controller
+        self.joystick = wpilib.XboxController(0)
 
-    def teleopPeriodic(self):
-        """ Metodo para controlar el robot Teleoperadamente """
+        # Power Distribution Panel (PDP)
+        self.pdp = PowerDistribution(0, wpilib.PowerDistribution.ModuleType.kCTRE)
 
-        # Asegurar que haya movimiento de los JS
-        if(-self.driverController.getLeftY() > 0.5 or 
-           -self.driverController.getLeftX() > 0.5 or 
-           -self.driverController.getLeftY() < -0.5 or 
-           -self.driverController.getLeftX() < -0.5 or 
-           -self.driverController.getRightX() > 0.5 or 
-           -self.driverController.getRightX() < -0.5):
-            
-            # Obtener Posicion y Rotacion de los JS
-            forward = -self.driverController.getLeftY() * 0.05
-            rotation = -self.driverController.getRightX() * 0.05
+        # Variable to track the current elevator level
+        self.current_elevator_level = None  # None means the elevator hasn't been moved to any level yet
 
-            # Actualizar Rotacion del Robot
-            self.robotRotation = self.robotRotation + rotation
+    def _initMotors(self):
+        """Initialize the drive motors and followers"""
+        self.talonLeft = WPI_VictorSPX(3)
+        self.talonLeft_follower = WPI_VictorSPX(1)
+        self.talonRight = WPI_VictorSPX(4)
+        self.talonRight_follower = WPI_VictorSPX(2)
 
-            # Calcular la nueva Posicion del Robot con la Rotacion utilizando la libreria math
-            deltaX = forward * math.cos(self.robotRotation)
-            deltaY = forward * math.sin(self.robotRotation)
-            
-            # Asignar las posiciones al Robot
-            self.robotPos[0] = self.robotPos[0] + deltaX
-            self.robotPos[1] = self.robotPos[1] + deltaY
+        self.talonLeft_follower.follow(self.talonLeft)
+        self.talonRight_follower.follow(self.talonRight)
 
-            # Actualizar las posiciones en la Simulacion
-            self.field.setRobotPose(Pose2d(self.robotPos[0], self.robotPos[1], Rotation2d(self.robotRotation)))
+        # Inversion setup
+        self.talonLeft.setInverted(False)
+        self.talonLeft_follower.setInverted(False)
+        self.talonRight.setInverted(True)
+        self.talonRight_follower.setInverted(True)
 
-            print(f"Robot Position: {self.robotPos}, Rotation: {self.robotRotation}")
+        # Robot Drive system
+        self.drive = DifferentialDrive(self.talonLeft, self.talonRight)
+
+    def _initElevatorMotors(self):
+        """Initialize the elevator motors"""
+        self.elevatorLeft = WPI_VictorSPX(5)
+        self.elevatorRight = WPI_VictorSPX(6)
+        self.elvatorDrive = DifferentialDrive(self.elevatorLeft, self.elevatorRight)
+
+    def _initElevatorSwitches(self):
+        """Initialize limit switches for the elevator"""
+        self.switch_level_1 = DigitalInput(7)  # Limit switch for level 1
+        self.switch_level_2 = DigitalInput(8)  # Limit switch for level 2
+        self.switch_level_3 = DigitalInput(9)  # Limit switch for level 3
 
     def autonomousInit(self):
-        """This function is run once each time the robot enters autonomous mode."""
+        """Called once when autonomous mode starts"""
         self.timer.restart()
 
     def autonomousPeriodic(self):
-        """This function is called periodically during autonomous."""
-
-        # Drive for two seconds
-        if self.timer.get() < 2.0:
-            # Drive forwards half speed, make sure to turn input squaring off
-            self.robotDrive.arcadeDrive(0.5, 0, squareInputs=False)
-        else:
-            self.robotDrive.stopMotor()  # Stop robot
+        """Called periodically during autonomous"""
+        pass
 
     def teleopInit(self):
-        """This function is called once each time the robot enters teleoperated mode."""
+        """Called once when teleop mode starts"""
+        pass
+
+    def teleopPeriodic(self):
+        """Called periodically during teleop mode"""
+        self._updateSystemData()
+        self._driveRobot()
+        # self._operateElevator()
+        self._manualElevatorControl()
+
+    def _updateSystemData(self):
+        """Update and display system data on the SmartDashboard"""
+        system_voltage = self.pdp.getVoltage()
+        system_current = self.pdp.getTotalCurrent()
+        motor_current = self.pdp.getCurrent(12)
+        
+        SmartDashboard.putNumber("Robot Voltage", system_voltage)
+        SmartDashboard.putNumber("Robot Current", system_current)
+        SmartDashboard.putNumber("Robot Motor Current", motor_current)
+
+        self._displayBatteryStatus(system_voltage)
+
+    def _displayBatteryStatus(self, voltage):
+        """Display battery status on the SmartDashboard"""
+        if voltage > 13:
+            SmartDashboard.putString("Battery State", "Good")
+        elif 12 < voltage <= 13:
+            SmartDashboard.putString("Battery State", "Caution")
+        else:
+            SmartDashboard.putString("Battery State", "Critical")
+
+    def _driveRobot(self):
+        """Drive the robot based on joystick input"""
+        speed = self.speed_limit * -self.joystick.getLeftY()
+        rotation = self.speed_limit * -self.joystick.getLeftX()
+        self.drive.arcadeDrive(speed, rotation)
+
+    def _operateElevator(self):
+        """Control elevator movement with joystick input and limit switches"""
+        if self.joystick.getAButtonPressed():  # Button A: Move to Level 1
+            self.moveElevatorToLevel(0)
+        elif self.joystick.getBButtonPressed():  # Button B: Move to Level 2
+            self.moveElevatorToLevel(1)
+        elif self.joystick.getXButtonPressed():  # Button X: Move to Level 3
+            self.moveElevatorToLevel(2)
+
+    def moveElevatorToLevel(self, target_level):
+        """Move the elevator to the specified target level using limit switches"""
+        # Prevent unnecessary movement if the elevator is already at the target level
+        if self.current_elevator_level == target_level:
+            print(f"Elevator is already at Level {target_level + 1}, no movement required.")
+            return
+
+        if target_level == 0:  # Move to Level 1 (bottom)
+            self._moveElevatorToPosition(self.switch_level_1, -0.5, 0)
+        elif target_level == 1:  # Move to Level 2 (middle)
+            self._moveElevatorToPosition(self.switch_level_2, 0.5, 1)
+        elif target_level == 2:  # Move to Level 3 (top)
+            self._moveElevatorToPosition(self.switch_level_3, 0.6, 2)
+
+        # Update the current elevator level once it has moved
+        self.current_elevator_level = target_level
+
+    def _moveElevatorToPosition(self, limit_switch, speed, target_level):
+        """Move the elevator towards a target position and stop when reaching the limit switch"""
+        print(f"Moving elevator to Level {target_level + 1} with speed {speed}")
+        while not limit_switch.get():  # Continue moving until the limit switch is pressed
+            self.elvatorDrive.arcadeDrive(speed, 0)  # Move elevator up or down
+        self.elvatorDrive.arcadeDrive(0, 0)  # Stop the elevator when limit switch is pressed
+        print(f"Elevator reached Level {target_level + 1}")
+
+    def _manualElevatorControl(self):
+        """Manually control the elevator with the joystick (fine-tuning)"""
+        manual_speed = -(self.joystick.getRightY() * 0.7)
+        if (self.switch_level_2.get() == False):
+            manual_speed = 0
+            print("Pressing...")
+        self.elvatorDrive.arcadeDrive(manual_speed, 0)
 
     def testInit(self):
-        """This function is called once each time the robot enters test mode."""
+        """Called once when test mode starts"""
+        pass
 
     def testPeriodic(self):
-        """This function is called periodically during test mode."""
-
+        """Called periodically during test mode"""
+        pass
 
 if __name__ == "__main__":
     wpilib.run(MyRobot)
